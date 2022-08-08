@@ -114,9 +114,9 @@ public class LikeService {
 
     @Data
     @Builder
-    private class ValidationResult{
-        private String code = "";
-        private String message = "";
+    private static class ValidationResult{
+        private String code;
+        private String message;
         private Member member;
     }
 
