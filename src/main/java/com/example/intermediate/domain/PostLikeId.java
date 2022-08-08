@@ -16,9 +16,9 @@ import java.io.Serializable;
 public class PostLikeId implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id", nullable = false)
-    private Post post;
+    public Post post;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    public Member member;
 }
