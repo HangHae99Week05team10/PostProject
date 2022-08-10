@@ -1,8 +1,10 @@
 package com.example.intermediate.repository;
 
-import com.example.intermediate.domain.*;
+import com.example.intermediate.domain.Member;
+import com.example.intermediate.domain.Post;
+import com.example.intermediate.domain.PostLike;
+import com.example.intermediate.domain.PostLikeId;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
