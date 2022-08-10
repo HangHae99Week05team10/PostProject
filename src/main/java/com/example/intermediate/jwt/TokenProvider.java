@@ -11,6 +11,7 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,7 +65,7 @@ public class TokenProvider {
     RefreshToken refreshTokenObject = RefreshToken.builder()
         .id(member.getId())
         .member(member)
-        .value(refreshToken)
+        .tokenValue(refreshToken)
         .build();
 
     refreshTokenRepository.save(refreshTokenObject);
