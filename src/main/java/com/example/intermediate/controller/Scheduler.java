@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class Scheduler {
     private  final PostRepository postRepository;
 
-    @Scheduled(cron = "0 0 1 * * * *")
+    @Scheduled(cron = "0 0 1 * * *")
     @Transactional
     public void autoDeleteNoUsePost() throws InterruptedException {
         System.out.println("댓글 없는 게시글 삭제");
