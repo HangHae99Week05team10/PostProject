@@ -78,6 +78,7 @@ public class SubCommentService {
                             .id(subComment.getId())
                             .author(subComment.getMember().getNickname())
                             .content(subComment.getContent())
+                            .likes(subComment.getTotalSubCommentLike())
                             .createdAt(subComment.getCreatedAt())
                             .modifiedAt(subComment.getModifiedAt())
                             .build()

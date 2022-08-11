@@ -12,6 +12,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface SubCommentLikeRepository extends JpaRepository<SubCommentLike, SubCommentLikeId> {
-    List<SubCommentLike> findAllBySubCommentLikeId_SubComment(SubComment subComment);
-    List<SubCommentLike> findAllBySubCommentLikeId_Member(Member member);
+//    List<SubCommentLike> findAllBySubCommentLikeId_SubComment(SubComment subComment);
+//    List<SubCommentLike> findAllBySubCommentLikeId_Member(Member member);
 }

@@ -27,4 +27,8 @@ public class LikeController {
     public ResponseDto<?> likeComment(@PathVariable Long id, HttpServletRequest request){
         return likeService.likeComment(id,request);
     }
+    @PostMapping("/sub-comment/{id}")
+    public ResponseDto<?> likeSubComment(@PathVariable Long id, HttpServletRequest request){
+        return likeService.likeSubComment(id,request);
+    }
 }

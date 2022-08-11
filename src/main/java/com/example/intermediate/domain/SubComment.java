@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 
@@ -30,6 +31,9 @@ public class SubComment extends Timestamped {
     @JoinColumn(name = "member_id")
     @ManyToOne(fetch = LAZY)
     private Member member;
+
+    @Formula("(select count(1) from sub_comment_like scl where scl.sub_comment_id = id)")
+    private int totalSubCommentLike;
 
     public void update(SubCommentRequestDto requestDto) {
         this.content = requestDto.getContent();

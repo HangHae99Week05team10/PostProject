@@ -17,6 +17,7 @@ public class SubCommentResponseDto {
     private Long id;
     private String author;
     private String content;
+    private int likes;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
@@ -24,6 +25,7 @@ public class SubCommentResponseDto {
         this.id = subComment.getId();
         this.author = subComment.getMember().getNickname();
         this.content = subComment.getContent();
+        this.likes = subComment.getTotalSubCommentLike();
         this.createdAt = subComment.getCreatedAt();
         this.modifiedAt = subComment.getModifiedAt();
     }
