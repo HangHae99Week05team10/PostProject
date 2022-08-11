@@ -3,16 +3,22 @@ package com.example.intermediate.controller;
 import com.example.intermediate.controller.request.PostRequestDto;
 import com.example.intermediate.controller.response.ResponseDto;
 import com.example.intermediate.service.PostService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+
+import com.example.intermediate.service.UploadService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @RestController
 public class PostController {
 
   private final PostService postService;
+  private final UploadService uploadService;
 
   @RequestMapping(value = "/api/auth/post", method = RequestMethod.POST)
   public ResponseDto<?> createPost(@RequestBody PostRequestDto requestDto,
@@ -42,4 +48,8 @@ public class PostController {
     return postService.deletePost(id, request);
   }
 
+  @PostMapping("/api/upload/image")
+  public ResponseDto<?> upload(@RequestParam("multipartFile") MultipartFile multipartFile) throws IOException {
+    return uploadService.uploadPost(multipartFile, "static");
+  }
 }
