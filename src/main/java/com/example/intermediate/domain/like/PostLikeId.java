@@ -17,10 +17,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class PostLikeId implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "post_id", nullable = false)
+    @JoinColumn(name = "post_Id", nullable = false, insertable = false, updatable = false)
     public Post post;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumn(name = "member_id", nullable = false, insertable = false, updatable = false)
     public Member member;
 }

@@ -2,6 +2,7 @@ package com.example.intermediate.service;
 
 import com.example.intermediate.controller.request.PostRequestDto;
 import com.example.intermediate.controller.response.CommentResponseDto;
+import com.example.intermediate.controller.response.PostListResponseDto;
 import com.example.intermediate.controller.response.PostResponseDto;
 import com.example.intermediate.controller.response.ResponseDto;
 import com.example.intermediate.domain.Comment;
@@ -79,6 +80,7 @@ public class PostService {
               .id(comment.getId())
               .author(comment.getMember().getNickname())
               .content(comment.getContent())
+              .likes(comment.getTotalCommentLike())
               .createdAt(comment.getCreatedAt())
               .modifiedAt(comment.getModifiedAt())
               .build()
@@ -90,8 +92,9 @@ public class PostService {
             .id(post.getId())
             .title(post.getTitle())
             .content(post.getContent())
-            .commentResponseDtoList(commentResponseDtoList)
             .author(post.getMember().getNickname())
+            .likes(post.getTotalPostLike())
+            .commentResponseDtoList(commentResponseDtoList)
             .createdAt(post.getCreatedAt())
             .modifiedAt(post.getModifiedAt())
             .build()
@@ -100,7 +103,21 @@ public class PostService {
 
   @Transactional(readOnly = true)
   public ResponseDto<?> getAllPost() {
-    return ResponseDto.success(postRepository.findAllByOrderByModifiedAtDesc());
+    List<Post> postList = postRepository.findAllByOrderByModifiedAtDesc();
+    List<PostListResponseDto> postResponseDtoList = new ArrayList<>();
+
+    for (Post post : postList) {
+      postResponseDtoList.add(
+              PostListResponseDto.builder()
+                      .id(post.getId())
+                      .title(post.getTitle())
+                      .author(post.getMember().getNickname())
+                      .content(post.getContent())
+                      .likes(post.getTotalPostLike())
+                      .build()
+      );
+    }
+    return ResponseDto.success(postResponseDtoList);
   }
 
   @Transactional

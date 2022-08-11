@@ -17,6 +17,7 @@ public class CommentResponseDto {
   private String author;
   private String content;
   private List<SubCommentResponseDto> subCommentList;
+  private int likes;
   private LocalDateTime createdAt;
   private LocalDateTime modifiedAt;
 }
