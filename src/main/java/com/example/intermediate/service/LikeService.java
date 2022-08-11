@@ -2,11 +2,9 @@ package com.example.intermediate.service;
 
 import com.example.intermediate.controller.response.ResponseDto;
 import com.example.intermediate.domain.*;
+import com.example.intermediate.domain.like.*;
 import com.example.intermediate.jwt.TokenProvider;
-import com.example.intermediate.repository.CommentLikeRepository;
-import com.example.intermediate.repository.CommentRepository;
-import com.example.intermediate.repository.PostLikeRepository;
-import com.example.intermediate.repository.PostRepository;
+import com.example.intermediate.repository.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -20,25 +18,44 @@ import javax.servlet.http.HttpServletRequest;
 public class LikeService {
     private final PostLikeRepository postLikeRepository;
     private final CommentLikeRepository commentLikeRepository;
+    private final SubCommentLikeRepository subCommentLikeRepository;
     private final PostRepository postRepository;
-    protected final CommentRepository commentRepository;
+    private final CommentRepository commentRepository;
+    private final SubCommentRepository subCommentRepository;
+
     private final TokenProvider tokenProvider;
 
 
     public ResponseDto<?> likePost(Long postId, HttpServletRequest request){
-        return like(postId, request, ParentType.POST);
-    }
-    public ResponseDto<?> likeComment(Long commentId, HttpServletRequest request){
-        return like(commentId, request, ParentType.COMMENT);
-    }
-
-    public ResponseDto<?> like(Long id, HttpServletRequest request, ParentType parentType){
         ValidationResult result = validateMember(request);
         Member member = result.getMember();
+
         if (member==null){
             return ResponseDto.fail(result.getCode(), result.getMessage());
         }
+        return like(postId, member, ParentType.POST);
+    }
+    public ResponseDto<?> likeComment(Long commentId, HttpServletRequest request){
+        ValidationResult result = validateMember(request);
+        Member member = result.getMember();
 
+        if (member==null){
+            return ResponseDto.fail(result.getCode(), result.getMessage());
+        }
+        return like(commentId, member, ParentType.COMMENT);
+    }
+
+    public ResponseDto<?> likeSubComment(Long subCommentId, HttpServletRequest request){
+        ValidationResult result = validateMember(request);
+        Member member = result.getMember();
+
+        if (member==null){
+            return ResponseDto.fail(result.getCode(), result.getMessage());
+        }
+        return like(subCommentId, member, ParentType.SUBCOMMENT);
+    }
+
+    ResponseDto<?> like(Long id, Member member, ParentType parentType){
         if (parentType.name().equals("COMMENT")){
             Comment comment = commentRepository.findById(id).orElse(null);
             if (comment == null){
@@ -77,6 +94,25 @@ public class LikeService {
                 postLikeRepository.delete(postLike);
                 return ResponseDto.success("unlike success");
             }
+        } else if (parentType.name().equals("SUBCOMMENT")) {
+            SubComment subComment = subCommentRepository.findById(id).orElse(null);
+            if (subComment == null){
+                return ResponseDto.fail("POST_NOT_FOUND", "해당 게시글을 찾을 수 없습니다.");
+            }
+            SubCommentLikeId subCommentLikeId = SubCommentLikeId.builder()
+                    .subComment(subComment)
+                    .member(member)
+                    .build();
+            SubCommentLike subCommentLike = SubCommentLike.builder()
+                    .subCommentLikeId(subCommentLikeId)
+                    .build();
+            if(subCommentLikeRepository.findById(subCommentLikeId).isEmpty()){
+                subCommentLikeRepository.save(subCommentLike);
+                return ResponseDto.success("like success");
+            }else {
+                subCommentLikeRepository.delete(subCommentLike);
+                return ResponseDto.success("unlike success");
+            }
         }else{
             throw new IllegalArgumentException();
         }
@@ -110,6 +146,7 @@ public class LikeService {
         return ValidationResult.builder()
                 .member(member)
                 .build();
+
     }
 
     @Data
@@ -120,5 +157,5 @@ public class LikeService {
         private Member member;
     }
 
-    private enum ParentType { COMMENT, POST;}
+    enum ParentType { COMMENT, POST, SUBCOMMENT;}
 }

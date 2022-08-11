@@ -1,6 +1,7 @@
-package com.example.intermediate.domain;
+package com.example.intermediate.domain.like;
 
 
+import com.example.intermediate.domain.Timestamped;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,10 +15,7 @@ import javax.persistence.Entity;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostLike extends Timestamped{
+public class SubCommentLike extends Timestamped {
     @EmbeddedId
-    private PostLikeId postLikeId;
-
-
-
+    private SubCommentLikeId subCommentLikeId;
 }

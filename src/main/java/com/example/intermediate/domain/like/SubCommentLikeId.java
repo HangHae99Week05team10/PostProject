@@ -1,5 +1,8 @@
-package com.example.intermediate.domain;
+package com.example.intermediate.domain.like;
 
+import com.example.intermediate.domain.Comment;
+import com.example.intermediate.domain.Member;
+import com.example.intermediate.domain.SubComment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,16 +12,16 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
-@Builder
 @AllArgsConstructor
 @Embeddable
+@Builder
 @NoArgsConstructor
-public class PostLikeId implements Serializable {
+public class SubCommentLikeId implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "post_id", nullable = false)
-    public Post post;
+    @JoinColumn(name = "subComment_id", nullable = false)
+    private SubComment subComment;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id", nullable = false)
-    public Member member;
+    private Member member;
 }

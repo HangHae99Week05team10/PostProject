@@ -3,6 +3,7 @@ package com.example.intermediate.controller;
 import com.example.intermediate.controller.response.ResponseDto;
 import com.example.intermediate.service.LikeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 @RequestMapping("/api/auth/like")
 public class LikeController {
-    private LikeService likeService;
+    private final LikeService likeService;
 
     @PostMapping("/post/{id}")
     public ResponseDto<?> likePost(@PathVariable Long id, HttpServletRequest request){

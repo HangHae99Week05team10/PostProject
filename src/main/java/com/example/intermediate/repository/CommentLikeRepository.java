@@ -1,8 +1,8 @@
 package com.example.intermediate.repository;
 
 import com.example.intermediate.domain.Comment;
-import com.example.intermediate.domain.CommentLike;
-import com.example.intermediate.domain.CommentLikeId;
+import com.example.intermediate.domain.like.CommentLike;
+import com.example.intermediate.domain.like.CommentLikeId;
 import com.example.intermediate.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
